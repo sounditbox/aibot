@@ -13,7 +13,7 @@ def get_db_async_url():
     if db_url.startswith('sqlite:///'):
         db_url =  db_url.replace('sqlite:///', 'sqlite+aiosqlite:///')
     elif db_url.startswith('psycopg:///'):
-        db_url =  db_url.replace('psycopg:///', 'asyncpg:///')
+        db_url =  db_url.replace('psycopg:///', 'postgresql:///')
     return db_url
 
 async_engine = create_async_engine(get_db_async_url(), echo=settings.DEBUG)

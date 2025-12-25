@@ -4,8 +4,8 @@ from typing import List, Dict, Any
 
 from sqlalchemy.orm import Session
 
-from database.models import Source, NewsItem
-from news_parser.sites import HabrParser, SiteParser
+from app.database.models import Source, NewsItem
+from app.news_parser.sites import HabrParser, SiteParser
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ def save_news_items(session: Session, news_items: List[Dict[str, Any]]) -> int:
         if check_duplicate(session, url=item_data.get('url'), title=item_data.get('title')):
             logger.debug(f"Пропущен дубликат: {item_data.get('title', 'Без названия')}")
             continue
-        
+
         try:
             news_item = NewsItem(
                 title=item_data['title'],
@@ -47,7 +47,7 @@ def save_news_items(session: Session, news_items: List[Dict[str, Any]]) -> int:
         except Exception as e:
             logger.error(f"Ошибка при сохранении новости '{item_data.get('title', 'Без названия')}': {e}")
             continue
-    
+
     try:
         session.commit()
         logger.info(f"Сохранено новостей: {saved_count} из {len(news_items)}")

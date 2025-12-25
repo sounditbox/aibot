@@ -4,8 +4,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "sqlite:///database/aibot.database"
-    REDIS_URL: str = "redis://localhost:6379/0"
+    DATABASE_URL: str = "postgresql+psycopg://postgres:postgres@postgres:5432/aibot"
+    REDIS_URL: str = "redis://redis:6379/0"
 
     TELERGAM_API_ID: Optional[int] = None
     TELERGAM_API_HASH: Optional[str] = None
@@ -15,8 +15,8 @@ class Settings(BaseSettings):
     OPENAI_API_KEY: Optional[str] = None
     OPENAI_MODEL: str = "gpt-4o-mini"
 
-    CELERY_BROKER_URL: str = "redis://localhost:6379/0"
-    CELERY_RESULT_BACKEND: str = "redis://localhost:6379/0"
+    CELERY_BROKER_URL: str = "redis://redis:6379/0"
+    CELERY_RESULT_BACKEND: str = "redis://redis:6379/0"
 
     PARSE_INTERVAL_MINUTES: int = 1
 

@@ -1,9 +1,9 @@
 import logging
 
-from aibot.celery_worker import celery_app
-from database.db import get_db_sync
-from database.models import Source
-from utils import parse_site_source, parse_telegram_source
+from celery_worker import celery_app
+from app.database.db import get_db_sync
+from app.database.models import Source
+from app.utils import parse_site_source, parse_telegram_source
 
 logger = logging.getLogger(__name__)
 
