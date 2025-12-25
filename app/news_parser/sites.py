@@ -30,7 +30,7 @@ class HabrParser(SiteParser):
         soup = BeautifulSoup(response.text, 'html.parser')
         return [
             {
-                'title': article.find('h2').a.span.text,
+                'title': article.find('h2').a.span.arg_text,
                 'url': self._normalize_url(article.get('id')),
                 'summary': article.find('div', class_='article-formatted-body').text,
                 'source': self.source,

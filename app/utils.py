@@ -4,7 +4,7 @@ from typing import List, Dict, Any
 
 from sqlalchemy.orm import Session
 
-from app.database.models import Source, NewsItem
+from app.database.models import Source, NewsItem, Post
 from app.news_parser.sites import HabrParser, SiteParser
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,9 @@ def save_news_items(session: Session, news_items: List[Dict[str, Any]]) -> int:
                 published_at=item_data.get('published_at', datetime.now()),
                 raw_text=item_data.get('raw_text')
             )
+            new_post = Post(news_id=news_item.id)
             session.add(news_item)
+            session.add(new_post)
             saved_count += 1
             logger.debug(f"Добавлена новость: {item_data.get('title', 'Без названия')}")
         except Exception as e:
