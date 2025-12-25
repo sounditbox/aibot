@@ -1,14 +1,8 @@
-from datetime import datetime
 from enum import Enum
-
-from sqlalchemy import Column, String, Text, DateTime
-from sqlalchemy.orm import Mapped
-from sqlalchemy.sql.annotation import Annotated
-from sqlalchemy.testing.schema import mapped_column
-from uuid import uuid4
 
 
 class PostStatus(str, Enum):
+    """Статусы поста"""
     NEW = "new"
     GENERATED = "generated"
     PUBLISHED = "published"
@@ -16,19 +10,6 @@ class PostStatus(str, Enum):
 
 
 class SourceType(str, Enum):
+    """Типы источников новостей"""
     SITE = "site"
     TG = "tg"
-
-
-ID = Annotated[Mapped[int], mapped_column(
-                           primary_key=True,
-                           index=True,
-                           default=uuid4)
-]
-URL = Annotated[str, Column(String, nullable=False, index=True)]
-TextContent = Annotated[str, Column(Text)]
-TimeStamp = Annotated[datetime, Column(DateTime, nullable=False, default=datetime.now)]
-
-# STATUS = Annotated[PostStatus, Column(Enum(PostStatus), nullable=False)]
-
-# SOURCE_TYPE = Annotated[SourceType, Column(Enum(SourceType), nullable=False)]

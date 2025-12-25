@@ -26,7 +26,7 @@ async_session_factory = sessionmaker(async_engine, class_=AsyncSession, expire_o
 sync_session_factory = sessionmaker(sync_engine)
 
 
-async def get_db() -> AsyncGenerator[AsyncSession]:
+async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_factory() as session:
         try:
             yield session
@@ -34,7 +34,7 @@ async def get_db() -> AsyncGenerator[AsyncSession]:
             await session.close()
 
 
-def get_db_sync() -> Generator[Session]:
+def get_db_sync() -> Generator[Session, None, None]:
     session = sync_session_factory()
     try:
         yield session
