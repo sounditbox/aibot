@@ -10,6 +10,7 @@ INSTRUCTIONS = """
 Сделай краткое, интересное описание новости для Telegram-канала, добавь emoji, call to action
 """
 
+# TODO: rewrite instructions
 
 def generate_posts(news: NewsItem) -> str | None:
     prompt = f"""
