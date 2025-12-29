@@ -11,9 +11,11 @@ from ..config import settings
 def get_db_async_url():
     db_url = settings.DATABASE_URL
     if db_url.startswith('sqlite:///'):
-        db_url =  db_url.replace('sqlite:///', 'sqlite+aiosqlite:///')
-    elif db_url.startswith('psycopg:///'):
-        db_url =  db_url.replace('psycopg:///', 'postgresql:///')
+        db_url = db_url.replace('sqlite:///', 'sqlite+aiosqlite:///')
+    elif db_url.startswith('postgresql+psycopg://'):
+        db_url = db_url.replace('postgresql+psycopg://', 'postgresql+asyncpg://')
+    elif db_url.startswith('postgresql://'):
+        db_url = db_url.replace('postgresql://', 'postgresql+asyncpg://')
     return db_url
 
 async_engine = create_async_engine(get_db_async_url(), echo=settings.DEBUG)
