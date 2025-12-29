@@ -11,7 +11,7 @@ INSTRUCTIONS = """
 """
 
 
-def generate_news(news: NewsItem) -> str | None:
+def generate_posts(news: NewsItem) -> str | None:
     prompt = f"""
     Новость: {news.title}
     Содержание: {news.summary}

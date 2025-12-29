@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Optional
 from uuid import uuid4
 
-from sqlalchemy import String, Boolean, Text, ForeignKey, Enum as SQLEnum
+from sqlalchemy import String, Boolean, Text, ForeignKey, Enum as SQLEnum, TypeDecorator
 from sqlalchemy.orm import declarative_base, relationship, Mapped, mapped_column
 
 from .types import PostStatus, SourceType
@@ -10,6 +10,27 @@ from .types import PostStatus, SourceType
 
 def generate_uuid() -> str:
     return str(uuid4())
+
+
+class SourceTypeEnum(TypeDecorator):
+    """TypeDecorator для правильной работы с SourceType enum"""
+    impl = String
+    cache_ok = True
+    
+    def __init__(self):
+        super().__init__(length=10)
+    
+    def process_bind_param(self, value, dialect):
+        if value is None:
+            return None
+        if isinstance(value, SourceType):
+            return value.value
+        return value
+    
+    def process_result_value(self, value, dialect):
+        if value is None:
+            return None
+        return SourceType(value)
 
 Base = declarative_base()
 
@@ -61,7 +82,7 @@ class Source(Base):
         default=generate_uuid
     )
     type: Mapped[SourceType] = mapped_column(
-        SQLEnum(SourceType, native_enum=False),
+        SourceTypeEnum(),
         nullable=False
     )
     name: Mapped[str] = mapped_column(String, nullable=False)

@@ -16,15 +16,18 @@ celery_app.conf.update(
     task_serializer='json',
     accept_content=['json'],
     result_serializer='json',
-    queue='aibot',
+    task_default_queue='default',
     task_routes={
         'app.tasks.parse_news': {
-            'queue': 'aibot',
+            'queue': 'parsing',
+        },
+        'app.tasks.generate_posts': {
+            'queue': 'generation',
         },
     },
     task_acks_late=True,
-    task_time_limit=30,
-    task_soft_time_limit=25,
+    task_time_limit=300,  # 5 минут для генерации
+    task_soft_time_limit=240,  # 4 минуты мягкий лимит
     enable_utc=True,
     worker_pool='solo' if platform.system() == 'Windows' else 'prefork',
     worker_concurrency=1 if platform.system() == 'Windows' else None,
@@ -32,6 +35,10 @@ celery_app.conf.update(
         'parse_news': {
             'task': 'app.tasks.parse_news',
             'schedule': timedelta(minutes=settings.PARSE_INTERVAL_MINUTES),
+        },
+        'generate_posts': {
+            'task': 'app.tasks.generate_posts',
+            'schedule': timedelta(minutes=settings.GENERATE_INTERVAL_MINUTES),
         }
     }
 )
