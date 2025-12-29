@@ -46,7 +46,7 @@ class NewsItem(Base):
     title: Mapped[str] = mapped_column(nullable=False)
     url: Mapped[Optional[str]] = mapped_column(String, nullable=True, index=True)
     summary: Mapped[str] = mapped_column(Text)
-    source: Mapped[str] = mapped_column(String, nullable=False)
+    source: Mapped[str] = mapped_column(String, nullable=False) # TODO: foreign key to Source
     published_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)
     raw_text: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(nullable=False, default=datetime.now)

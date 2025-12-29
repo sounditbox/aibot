@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from .api.endpoints import router
 from .database.db import init_db, async_engine
 
 
@@ -19,6 +20,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+app.include_router(router)
 
 @app.get("/")
 def read_root():
