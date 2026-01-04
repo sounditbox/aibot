@@ -20,6 +20,7 @@ class Settings(BaseSettings):
 
     PARSE_INTERVAL_MINUTES: int = 30
     GENERATE_INTERVAL_MINUTES: int = 30
+    PUBLISH_INTERVAL_MINUTES: int = 30
 
     DEBUG: bool = True
 

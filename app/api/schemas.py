@@ -60,6 +60,7 @@ class NewsItemResponse(BaseModel):
     class Config:
         from_attributes = True
 
+
 class PostResponse(BaseModel):
     id: str
     news_id: str
@@ -67,7 +68,22 @@ class PostResponse(BaseModel):
     published_at: Optional[datetime]
     status: PostStatus
     created_at: datetime
+
     # TODO: news_item: NewsItemResponse
 
     class Config:
         from_attributes = True
+
+
+class TelegramAuthRequest(BaseModel):
+    phone: str = Field(..., description='Номер телефона в формате +7XXXXXXXXXX')
+    code: Optional[str] = Field(None, description='Код подтверждения из Telegram')
+    password: Optional[str] = Field(None, description='Пароль двухфакторной аутентификации')
+
+
+class TelegramAuthResponse(BaseModel):
+    success: bool
+    message: str
+    phone: Optional[str] = None
+    username: Optional[str] = None
+    next_step: Optional[str] = Field(None, description='Следующий шаг: code или password')

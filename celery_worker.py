@@ -24,6 +24,9 @@ celery_app.conf.update(
         'app.tasks.generate_posts': {
             'queue': 'generation',
         },
+        'app.tasks.publish_posts': {
+            'queue': 'publish',
+        },
     },
     task_acks_late=True,
     task_time_limit=300,  # 5 минут для генерации
@@ -39,6 +42,10 @@ celery_app.conf.update(
         'generate_posts': {
             'task': 'app.tasks.generate_posts',
             'schedule': timedelta(minutes=settings.GENERATE_INTERVAL_MINUTES),
+        },
+        'publish_posts': {
+            'task': 'app.tasks.publish_posts',
+            'schedule': timedelta(minutes=settings.PUBLISH_INTERVAL_MINUTES),
         }
     }
 )
